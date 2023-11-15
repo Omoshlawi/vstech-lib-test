@@ -18,8 +18,7 @@ import {
   launchCameraAsync,
   CameraType,
 } from "expo-image-picker";
-import { IconButton } from "react-native-paper";
-
+import { HelperText, IconButton } from "react-native-paper";
 
 const ImagePicker: React.FC<ImagePickerProps> = ({
   size = 100,
@@ -28,6 +27,8 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
   image,
   onImageChange,
   onRequestDelete,
+  label,
+  error,
 }) => {
   const [status, requestPermision] = useCameraPermissions();
   const pickImage = () => {
@@ -73,76 +74,81 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
   const toggleShowImage = () => setShowImage(!showImage);
 
   return (
-    <TouchableOpacity
-      style={[
-        {
-          width: size,
-          height: size,
-          backgroundColor: backgroundColor,
-          borderRadius: size ? size * 0.5 : 50,
-        },
-        styles.container,
-      ]}
-      onPress={image ? toggleShowImage : pickImage}
-    >
-      <>
-        {image && (
-          <ImagePickerEditButton
-            size={size ? size * 0.24 : 24}
-            onPress={pickImage}
-          />
-        )}
-        <View
-          style={{
-            overflow: "hidden",
+    <View style={{ alignItems: "center" }}>
+      <TouchableOpacity
+        style={[
+          {
+            width: size,
+            height: size,
+            backgroundColor: backgroundColor,
             borderRadius: size ? size * 0.5 : 50,
-          }}
-        >
-          {image ? (
-            <Image
-              source={{ uri: image }}
-              style={{ width: size, height: size }}
-            />
-          ) : (
-            <MaterialCommunityIcons
-              name="camera"
-              size={size ? size * 0.75 : 75}
-              style={styles.icon}
-              color={iconColor}
+          },
+          styles.container,
+        ]}
+        onPress={image ? toggleShowImage : pickImage}
+      >
+        <>
+          {image && (
+            <ImagePickerEditButton
+              size={size ? size * 0.24 : 24}
+              onPress={pickImage}
             />
           )}
-        </View>
-      </>
-      {showImage && (
-        <Modal onRequestClose={toggleShowImage} animationType="slide">
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{
+              overflow: "hidden",
+              borderRadius: size ? size * 0.5 : 50,
+            }}
           >
-            <IconButton
-              icon={"delete"}
-              iconColor="red"
-              onPress={() => {
-                if (onRequestDelete instanceof Function) onRequestDelete();
-                toggleShowImage();
-              }}
-              style={{ alignSelf: "flex-end" }}
-            />
-            <IconButton
-              icon={"close"}
-              onPress={toggleShowImage}
-              style={{ alignSelf: "flex-end" }}
-            />
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                style={{ width: size, height: size }}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="camera"
+                size={size ? size * 0.75 : 75}
+                style={styles.icon}
+                color={iconColor}
+              />
+            )}
           </View>
-          <View style={{ flex: 1 }}>
-            <Image
-              source={{ uri: image }}
-              style={{ width: "100%", height: "100%" }}
-              resizeMode="contain"
-            />
-          </View>
-        </Modal>
-      )}
-    </TouchableOpacity>
+        </>
+
+        {showImage && (
+          <Modal onRequestClose={toggleShowImage} animationType="slide">
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <IconButton
+                icon={"delete"}
+                iconColor="red"
+                onPress={() => {
+                  if (onRequestDelete instanceof Function) onRequestDelete();
+                  toggleShowImage();
+                }}
+                style={{ alignSelf: "flex-end" }}
+              />
+              <IconButton
+                icon={"close"}
+                onPress={toggleShowImage}
+                style={{ alignSelf: "flex-end" }}
+              />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Image
+                source={{ uri: image }}
+                style={{ width: "100%", height: "100%" }}
+                resizeMode="contain"
+              />
+            </View>
+          </Modal>
+        )}
+      </TouchableOpacity>
+      {label && <Text>{label}</Text>}
+      {error && <HelperText type="error">{error}</HelperText>}
+    </View>
   );
 };
 

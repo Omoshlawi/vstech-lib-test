@@ -9,10 +9,11 @@ import * as YUP from "yup";
 import FormDateTimePicker from "./src/input/date_picker/FormDateTimePicker";
 import FormImagePicker from "./src/input/image_picker/FormImagePicker";
 import FormSubmitButton from "./src/input/button/FormSubmitButton";
+import FormItemPicker from "./src/input/item_picker/FormItemPicker";
 
 const validationSchemer = YUP.object().shape({
   dob: YUP.date().max(new Date()).label("Date of birth").required(),
-  // food: YUP.string().label("Food").required(),
+  food: YUP.string().label("Food").required(),
   image: YUP.string().label("Image").required(),
 });
 
@@ -39,7 +40,7 @@ const Screen = () => {
         initialValue={{
           dob: new Date(),
           image: "",
-          //  food: ""
+          food: "",
         }}
         onSubmit={(value) => {
           console.log(value);
@@ -58,10 +59,9 @@ const Screen = () => {
           display="default"
           variant="outlined"
         />
-        <FormImagePicker name="image" size={100} />
-        <FormSubmitButton title="Submit" />
-        {/* <ItemPicker
-          // columnCount={3}
+        <FormImagePicker name="image" size={100} label="Profile picture" />
+        <FormItemPicker
+          name="food"
           variant="outlined"
           label="Favourite Food"
           data={foods}
@@ -73,8 +73,6 @@ const Screen = () => {
               <Text style={{}}>{item.name}</Text>
             </View>
           )}
-          onItemChanged={setFood}
-          item={food}
           searchable
           searchStyle={{
             placeholder: "Seach here ...",
@@ -82,7 +80,8 @@ const Screen = () => {
             value: "34567890",
           }}
           horizontal
-        /> */}
+        />
+        <FormSubmitButton title="Submit" />
       </Form>
     </View>
   );

@@ -8,7 +8,6 @@ const FormSubmitButton = ({ title }: { title: string }) => {
   return (
     <Button
       onPress={() => {
-        console.log("Submitting form");
         handleSubmit();
       }}
       mode="contained"

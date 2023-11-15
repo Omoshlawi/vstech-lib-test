@@ -4,8 +4,9 @@ import ImagePicker from "./ImagePicker";
 import { useFormikContext } from "formik";
 
 const FormImagePicker: React.FC<FormImagePickerProps> = ({ ...props }) => {
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, errors } = useFormikContext();
   const _values: any = values;
+  const _errors: any = errors;
   return (
     <ImagePicker
       {...{
@@ -13,6 +14,7 @@ const FormImagePicker: React.FC<FormImagePickerProps> = ({ ...props }) => {
         image: _values[props.name],
         onImageChange: (image) => setFieldValue(props.name, image),
         onRequestDelete: () => setFieldValue(props.name, ""),
+        error: _errors[props.name],
       }}
     />
   );

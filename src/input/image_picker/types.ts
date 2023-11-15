@@ -1,5 +1,7 @@
 
 interface ImagePickerProps {
+  label?: string;
+  error?:string;
     size?: number;
     backgroundColor?: string;
     iconColor?: string;
@@ -9,6 +11,7 @@ interface ImagePickerProps {
   }
 
 interface FormImagePickerProps {
+  label?: string;
     size?: number;
     backgroundColor?: string;
     iconColor?: string;
