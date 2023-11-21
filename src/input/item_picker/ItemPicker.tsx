@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   View,
   TouchableHighlight,
   Modal,
@@ -10,7 +9,7 @@ import {
   StyleProp,
 } from "react-native";
 import React, { ReactNode, useRef, useState } from "react";
-import { Icon, TextInput, TextInputProps } from "react-native-paper";
+import { Icon, TextInput, TextInputProps, Text } from "react-native-paper";
 
 interface ItemPickerProps {
   data?: any[];
@@ -83,8 +82,8 @@ const ItemPicker: React.FunctionComponent<ItemPickerProps> = ({
           mode={variant}
           value={
             labelExtractor
-              ? labelExtractor(currentItem)
-              : JSON.stringify(currentItem)
+              ? (currentItem ? labelExtractor(currentItem) : "")
+              : (currentItem ? JSON.stringify(currentItem) : "")
           }
           editable={false}
           left={
@@ -112,7 +111,8 @@ const ItemPicker: React.FunctionComponent<ItemPickerProps> = ({
       {showItems && (
         <Modal animationType="slide" onRequestClose={toggleShowItems}>
           <View style={styles.itemsContainer}>
-            <TextInput
+            {label && <Text variant="titleLarge" style={{ textAlign: "center", marginVertical: 20 }}>{label}</Text>}
+            {searchable && <TextInput
               {...{
                 left: <TextInput.Icon icon="magnify" />,
                 ...searchStyle,
@@ -131,7 +131,8 @@ const ItemPicker: React.FunctionComponent<ItemPickerProps> = ({
 
                 value: undefined,
               }}
-            />
+            />}
+
             <FlatList
               contentContainerStyle={contentContainerStyle}
               numColumns={columnCount}

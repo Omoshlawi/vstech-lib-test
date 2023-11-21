@@ -10,6 +10,7 @@ import FormDateTimePicker from "./src/input/date_picker/FormDateTimePicker";
 import FormImagePicker from "./src/input/image_picker/FormImagePicker";
 import FormSubmitButton from "./src/input/button/FormSubmitButton";
 import FormItemPicker from "./src/input/item_picker/FormItemPicker";
+import LocationPicker from "./src/maps/location_picker/LocationPicker";
 
 const validationSchemer = YUP.object().shape({
   dob: YUP.date().max(new Date()).label("Date of birth").required(),
@@ -20,6 +21,10 @@ const validationSchemer = YUP.object().shape({
 const Screen = () => {
   const [date, setDtate] = useState<Date>(new Date());
   const [image, setImage] = useState<string>();
+  const [petPickupLoc, setPetPickupLocation] = useState({
+    latitude: -1.1352214,
+    longitude: 37.043278,
+  });
   // const [food, setFood] = useState<any>();
   const foods = [
     { name: "Chipo", id: 1, escote: ["Tomato", "soda"], icon: "account" },
@@ -68,7 +73,15 @@ const Screen = () => {
           valueExtractor={(item) => item?.id}
           labelExtractor={(item) => `${item?.name}`}
           renderItem={({ item, index, separators }) => (
-            <View style={{ alignItems: "center", margin: 20 }}>
+            <View
+              style={{
+                alignItems: "center",
+                margin: 5,
+                backgroundColor: "red",
+                flexDirection: "row",
+                borderRadius: 20,
+              }}
+            >
               <IconButton icon={item.icon} />
               <Text style={{}}>{item.name}</Text>
             </View>
@@ -79,7 +92,27 @@ const Screen = () => {
             mode: "outlined",
             value: "34567890",
           }}
-          horizontal
+        />
+
+        <LocationPicker
+          location={petPickupLoc as any}
+          onLocationChange={setPetPickupLocation as any}
+          prefixIcon="google-maps"
+          label="Choose Location"
+          surfixIcon="chevron-down"
+          variant="outlined"
+          labelExtractor={(latLng) =>
+            `Lat: ${latLng.latitude.toFixed(
+              2
+            )}, Lng: ${latLng.longitude.toFixed(2)}`
+          }
+          descriptionExtractor={(markerLocation) =>
+            `Latitude: ${markerLocation.latitude}, Longitude: ${markerLocation.longitude}`
+          }
+          calloutTitle="PetPickup Location"
+          confirmDialogMessageExtractor={(markerLocation) =>
+            `Are yousure you want to select Latitude:${markerLocation.latitude}, Longitude: ${markerLocation.longitude} as pet pickup location?`
+          }
         />
         <FormSubmitButton title="Submit" />
       </Form>
