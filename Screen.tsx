@@ -1,15 +1,18 @@
 import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import DateTimePicker from "./src/input/date_picker/DateTimePicker";
-import ImagePicker from "./src/input/image_picker/ImagePicker";
-import { Icon, IconButton, TextInput } from "react-native-paper";
-import ItemPicker from "./src/input/item_picker/ItemPicker";
+import { Icon, IconButton, TextInput, } from "react-native-paper";
 import Form from "./src/form/Form";
 import * as YUP from "yup";
-import FormDateTimePicker from "./src/input/date_picker/FormDateTimePicker";
-import FormImagePicker from "./src/input/image_picker/FormImagePicker";
-import FormSubmitButton from "./src/input/button/FormSubmitButton";
-import FormItemPicker from "./src/input/item_picker/FormItemPicker";
+import {
+  FormDateTimePicker,
+  FormImagePicker,
+  FormItemPicker,
+  FormSubmitButton,
+  DateTimePicker,
+  FormTextInput,
+  ImagePicker,
+  ItemPicker,
+} from "./src/input";
 import LocationPicker from "./src/maps/location_picker/LocationPicker";
 
 const validationSchemer = YUP.object().shape({
